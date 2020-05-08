@@ -1,0 +1,113 @@
+﻿@page
+@model ProjektProgramowanie.Pages.MiejscaCRUD.DetailsModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+
+<div>
+    <div class="row">
+        <div class="col-12 text-center border DetailsTitle">
+            @Html.DisplayFor(model => model.Miejsca.Miejsce)
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4 border">
+            <div class="row DetailsTitle">
+                <div class="col-12 text-center">
+                    @Html.DisplayNameFor(model => model.Miejsca.Kraj):
+                </div>
+            </div>
+            <div class="row Details">
+                @Html.DisplayFor(model => model.Miejsca.Kraj)
+            </div>
+            <br />
+            <div class="row text-center DetailsTitle">
+                <div class="col-12 text-center">
+                    @Html.DisplayNameFor(model => model.Miejsca.Opis):
+                </div>
+            </div>
+            <div class="row Details">
+                <asp:TextBox style="overflow:auto" class="TextareaScroll" textmode="multiline">
+                    @Html.DisplayFor(model => model.Miejsca.Opis)
+                </asp:TextBox>
+            </div>
+            <br />
+            <div class="col-12 text-center DetailsTitle">
+                @Html.DisplayNameFor(model => model.Miejsca.Trasa):
+            </div>
+
+            <div class="row Details">
+                <asp:TextBox style="overflow:auto" class="TextareaScroll" textmode="multiline">
+                    @Html.DisplayFor(model => model.Miejsca.Trasa)
+                </asp:TextBox>
+            </div>
+        </div>
+        <div class="col-8 text-center border">
+            <img src="~/images/@Model.Miejsca.Zdjecie" class="img-fluid rounded-lg" height="450" width="650" />
+        </div>
+    </div>
+</div>
+<br /><br />
+<div>
+    @if (Model.Miejsca.Autor == User.Identity.Name || User.Identity.Name == "Admin@gmail.com")
+    {
+        <a class="btn btn-primary" asp-page="Edit" asp-route-id="@Model.Miejsca.Id">Edytuj</a>
+        <a class="btn btn-danger" asp-page="Delete" asp-route-id="@Model.Miejsca.Id">Usun</a>
+    }
+    <a class="btn btn-secondary" asp-page="Index">Powrot do listy miejsc</a>
+</div>
+<br /><br />
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="col-4 jumbotron text-center JumbotronOutside">
+        <form method="post" asp-page-handler="Komentuj">
+            <br />
+            <input asp-for="KomentarzeZm.Komentarz" placeholder="Wpisz swój komentarz" class="JumbotronInside" />
+            <input type="submit" value="Skomentuj" class="btn btn-light" />
+            <br /><br />
+        </form>
+    </div>
+}
+else
+{
+    <div>
+        Zaloguj się żeby komentować
+    </div>
+}
+
+<div class="jumbotron">
+    Komentarze:
+    @foreach (var item in Model.KomentarzeList)
+    {
+    <div class="table-light border-bottom">
+
+        @Html.DisplayFor(modelItem => item.Autor)
+        @Html.DisplayFor(modelItem => item.Data)
+        <br /><br />
+        <div class="col-12">
+            @Html.DisplayFor(modelItem => item.Komentarz)
+        </div>
+        <br />
+        @if (User.Identity.Name == item.Autor || User.Identity.Name == "Admin@gmail.com" || User.Identity.Name == Model.Miejsca.Autor)
+        {
+
+            <form method="post" asp-page-handler="Usun" asp-route-id="@item.Id">
+                <div>
+                    <input type="submit" value="Usun Komentarz" />
+                </div>
+            </form>
+
+        }
+        else
+        {
+            <br />
+        }
+    </div>
+    }
+</div>

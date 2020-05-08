@@ -1,0 +1,32 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Polecane miejsca</h1>
+</div>
+
+<div class="row">
+    @foreach (var item in Model.MiejscaZm)
+    {
+        <div class="col-4 indexObject">
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-sm-11">
+                    <a asp-page="MiejscaCRUD/Details" asp-route-id="@item.Id">
+                        <img src="~/images/@item.Zdjecie" title="Details" width="150" height="100" class="rounded-lg"/>
+                    </a>
+                </div>
+                <div class="col-6 indexObjectText">
+                    <div class="font-weight-bold">Miejsce:</div>
+                    @Html.DisplayFor(modelItem => item.Miejsce)
+                    <div class="font-weight-bold">Kategoria:</div>
+                    @Html.DisplayFor(modelItem => item.Kategoria)
+                </div>
+            </div>
+        </div>
+    }
+</div>
+

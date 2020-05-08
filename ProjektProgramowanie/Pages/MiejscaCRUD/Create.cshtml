@@ -1,0 +1,98 @@
+﻿@page
+@model ProjektProgramowanie.Pages.MiejscaCRUD.CreateModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Miejsca.Miejsce" class="control-label"></label>
+                <input asp-for="Miejsca.Miejsce" class="form-control" placeholder="Wpisz Miejsce" />
+                <span asp-validation-for="Miejsca.Miejsce" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4">
+            <div class="form-group">
+                <label asp-for="Miejsca.Kraj" class="control-label"></label>
+                <input asp-for="Miejsca.Kraj" class="form-control" placeholder="Wpisz Kraj" />
+                <span asp-validation-for="Miejsca.Kraj" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-4">
+            <label asp-for="Miejsca.Kategoria" class="control-label"></label>
+            <div class="col-6">
+                <div class="form-group">
+                    @foreach (var Opcje in Model.Opcje)
+                    {
+                        <input type="radio" asp-for="Miejsca.Kategoria" value="@Opcje" />@Opcje<br />
+                    }
+                    <span asp-validation-for="Miejsca.Kategoria" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                    @foreach (var Opcje in Model.Opcje2)
+                    {
+                        <input type="radio" asp-for="Miejsca.Kategoria" value="@Opcje" />@Opcje<br />
+                    }
+                    <span asp-validation-for="Miejsca.Kategoria" class="text-danger"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-6 col-md-4 col-lg-4 col-xl-4">
+            <div class="form-group">
+                <label asp-for="Miejsca.Zdjecie" class="control-label"></label>
+                <span asp-validation-for="Miejsca.Zdjecie" class="text-danger"></span> <br />
+                <img ID="impPrev" class="img-fluid rounded" src="~/images/DodajZdjecie.png" />
+            </div>
+            <div class="form-group">
+                <input asp-for="Zdjecie" type="file" onchange="ShowPreview(this)" />
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-6 col-lg-6 col-xl-6">
+            <div class="form-group">
+                <label asp-for="Miejsca.Opis" class="control-label"></label>
+                <textarea asp-for="Miejsca.Opis" class="form-control" placeholder="Wpisz Opis" rows="10"></textarea>
+                <span asp-validation-for="Miejsca.Opis" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <div class="form-group">
+                <label asp-for="Miejsca.Trasa" class="control-label"></label>
+                <textarea asp-for="Miejsca.Trasa" class="form-control" placeholder="Wpisz Trase" rows="3"></textarea>
+                <span asp-validation-for="Miejsca.Trasa" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3 col-md-2 col-lg-1 col-xl-1">
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </div>
+        <div class="col-sm-3 col-md-3 col-lg-2 col-xl-2">
+            <div>
+                <a asp-page="Index" class="btn btn-secondary">Back to List</a>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
